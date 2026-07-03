@@ -13,6 +13,20 @@ Docker is a platform used to create, deploy and run applications inside containe
 - Container: running instance
 - Registry: image storage (e.g. Docker Hub)
 
+## Image vs Container
+
+- An image is an immutable template (è indipendente dal container, se elimino container l'immagine esiste).
+- A container is a running instance of an image.
+- Containers share the host operating system kernel.
+
+## Tag dell'immagine
+Un tag è un riferimento (alias) a una specifica immagine Docker. Viene comunemente utilizzato per identificare una versione dell'immagine (ad esempio 1.0, 2.0 o latest).
+Un'immagine è immutabile: se il contenuto cambia, Docker crea una nuova immagine con un nuovo Image ID. Successivamente è possibile assegnare uno o più tag a quella nuova immagine.
+Una stessa immagine può avere più tag (e quindi più nomi), ma tutti puntano allo stesso Image ID. Il tag non è una copia dell'immagine, è semplicemente un riferimento ad essa.
+
+## VM vs Container
+Un container non è una macchina virtuale. È un processo isolato. Se il processo principale termina, il container termina. I container condividono il kernel dell'host (più leggero di VM).
+
 ## My understanding
 Docker is a platform used to build, ship and run applications inside containers.
 A container is a lightweight and isolated runtime process created from a Docker image.
