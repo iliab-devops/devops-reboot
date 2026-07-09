@@ -37,6 +37,13 @@ Tutti i container condividono il kernel del sistema operativo host.
 
 Per questo motivo i container sono molto più leggeri e veloci da avviare rispetto alle macchine virtuali.
 
+## Perché Docker garantisce lo stesso comportamento ovunque?
+
+L'immagine Docker contiene tutto ciò che serve per eseguire un'applicazione (filesystem, dipendenze, librerie e configurazione).
+
+Quando viene eseguito un container, l'applicazione gira nello stesso ambiente indipendentemente dal computer host.
+
+I container condividono il kernel del sistema operativo host, ma isolano il resto dell'ambiente di esecuzione.
 
 ## My understanding
 Docker is a platform used to build, ship and run applications inside containers.

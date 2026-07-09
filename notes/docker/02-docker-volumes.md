@@ -1,0 +1,1 @@
+Un Docker Volume è un'area di storage persistente gestita da Docker e indipendente dal ciclo di vita dei container.
