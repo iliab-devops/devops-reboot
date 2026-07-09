@@ -27,6 +27,17 @@ Una stessa immagine può avere più tag (e quindi più nomi), ma tutti puntano a
 ## VM vs Container
 Un container non è una macchina virtuale. È un processo isolato. Se il processo principale termina, il container termina. I container condividono il kernel dell'host (più leggero di VM).
 
+## Kernel e container
+
+Un container Docker **non contiene un kernel**.
+
+Contiene il filesystem, le librerie e i programmi necessari per eseguire un'applicazione.
+
+Tutti i container condividono il kernel del sistema operativo host.
+
+Per questo motivo i container sono molto più leggeri e veloci da avviare rispetto alle macchine virtuali.
+
+
 ## My understanding
 Docker is a platform used to build, ship and run applications inside containers.
 A container is a lightweight and isolated runtime process created from a Docker image.
