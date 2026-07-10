@@ -19,13 +19,22 @@ Docker is a platform used to create, deploy and run applications inside containe
 - A container is a running instance of an image.
 - Containers share the host operating system kernel.
 
+
+
 ## Tag dell'immagine
 Un tag è un riferimento (alias) a una specifica immagine Docker. Viene comunemente utilizzato per identificare una versione dell'immagine (ad esempio 1.0, 2.0 o latest).
 Un'immagine è immutabile: se il contenuto cambia, Docker crea una nuova immagine con un nuovo Image ID. Successivamente è possibile assegnare uno o più tag a quella nuova immagine.
 Una stessa immagine può avere più tag (e quindi più nomi), ma tutti puntano allo stesso Image ID. Il tag non è una copia dell'immagine, è semplicemente un riferimento ad essa.
 
 ## VM vs Container
-Un container non è una macchina virtuale. È un processo isolato. Se il processo principale termina, il container termina. I container condividono il kernel dell'host (più leggero di VM).
+Un container non è una macchina virtuale. È un processo isolato. Se il processo principale termina, il container termina. 
+
+I container condividono il kernel dell'host (più leggero di VM).
+Il ciclo di vita di un container è legato al suo processo principale.
+
+- Se il processo principale è in esecuzione → il container è Running.
+- Se il processo principale termina → il container passa allo stato Exited.
+- Il container viene eliminato solo con `docker rm` oppure automaticamente se è stato avviato con `--rm`.
 
 ## Kernel e container
 
