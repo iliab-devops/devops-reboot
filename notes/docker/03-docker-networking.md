@@ -73,3 +73,120 @@ backend-net
 ```
 
 Questo permette, ad esempio, a un container di comunicare sia con l'esterno sia con altri servizi interni.
+
+## Port Mapping
+
+Le reti Docker permettono ai container di comunicare tra loro, ma per rendere un servizio accessibile dal computer host è necessario pubblicare una porta.
+
+Il port mapping collega una porta del computer host con una porta interna del container.
+
+Sintassi:
+
+```yaml
+ports:
+  - "porta_host:porta_container"
+```
+
+Esempio:
+
+```yaml
+ports:
+  - "8080:80"
+```
+
+Significa:
+
+```
+Host                     Container
+
+localhost:8080  ───────►  porta 80
+                         nginx
+```
+
+La porta a sinistra è quella utilizzata dal computer esterno.
+
+La porta a destra è quella su cui il servizio è in ascolto dentro il container.
+
+---
+
+### Esempio con nginx
+
+Nginx utilizza normalmente la porta 80 dentro il container:
+
+```
+Container
+
+nginx
+ |
+ | ascolta sulla porta 80
+ ▼
+porta 80
+```
+
+Per renderlo raggiungibile dal computer:
+
+```yaml
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+```
+
+Ora dal browser è possibile accedere tramite:
+
+```
+http://localhost:8080
+```
+
+Docker inoltrerà la richiesta:
+
+```
+localhost:8080
+        |
+        ▼
+porta 80 del container
+        |
+        ▼
+nginx
+```
+
+---
+
+## Differenza tra networking e port mapping
+
+### Comunicazione tra container
+
+Avviene tramite rete Docker:
+
+```
+backend
+   |
+   | database:5432
+   ▼
+database
+```
+
+Non serve pubblicare porte.
+
+---
+
+### Comunicazione dall'host verso il container
+
+Serve il port mapping:
+
+```
+Browser
+   |
+   | localhost:8080
+   ▼
+Docker
+   |
+   | porta 80
+   ▼
+Container nginx
+```
+
+---
+
+Le porte del container non sono automaticamente accessibili dall'esterno. Devono essere pubblicate tramite `ports`.
