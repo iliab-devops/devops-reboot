@@ -23,7 +23,7 @@ Su una rete personalizzata:
 
 Docker utilizza un DNS interno (`127.0.0.11`)[^bignote] per risolvere:
 
-[^bignote] : Questo indirizzo appartiene alla rete di loopback `127.0.0.0/8` (rete virtuale che permette a un dispositivo di inviare pacchetti di dati a se stesso). Docker utilizza un altro indirizzo della stessa rete (127.0.0.11) per far girare il suo piccolo server DNS dentro ogni container.
+[^bignote]: Questo indirizzo appartiene alla rete di loopback `127.0.0.0/8` (rete virtuale che permette a un dispositivo di inviare pacchetti di dati a se stesso). Docker utilizza un altro indirizzo della stessa rete (127.0.0.11) per far girare il suo piccolo server DNS dentro ogni container.
 ```
 nome container → indirizzo IP
 ```
