@@ -1,25 +1,75 @@
-## Docker Networking
+# Docker Networking
 
-Tutti i container creati senza specificare una rete vengono collegati automaticamente alla rete bridge predefinita.
+Per impostazione predefinita, tutti i container creati senza specificare una rete vengono collegati alla rete `bridge` predefinita di Docker.
 
-Sulla rete bridge predefinita:
-- i container possono comunicare tramite IP;
-- la risoluzione automatica tramite nome del container non è disponibile.
+Sulla rete `bridge` predefinita:
+- i container possono comunicare tramite indirizzo IP;
+- la risoluzione automatica dei nomi dei container non è disponibile.
 
-Le reti bridge create manualmente invece forniscono un DNS interno:
+Creando invece una rete bridge personalizzata:
+
+```bash
+docker network create devops-net
+```
+
+Docker crea anche un DNS interno.
+
+Su una rete personalizzata:
 - i container possono comunicare usando il nome del container;
-- gli IP possono cambiare senza rompere la comunicazione.
+- non è necessario conoscere l'indirizzo IP;
+- gli indirizzi IP possono cambiare senza modificare la configurazione dell'applicazione.
 
-## Docker Network e DNS
+## DNS interno di Docker
 
-I container collegati alla stessa rete Docker personalizzata possono comunicare usando il nome del container.
+Docker utilizza un DNS interno (`127.0.0.11`)[^1] per risolvere:
 
-Docker fornisce un DNS interno (127.0.0.11) che risolve:
-
+[^1] : Questo indirizzo appartiene alla rete di loopback `127.0.0.0/8` (rete virtuale che permette a un dispositivo di inviare pacchetti di dati a se stesso). Docker utilizza un altro indirizzo della stessa rete (127.0.0.11) per far girare il suo piccolo server DNS dentro ogni container.
+```
 nome container → indirizzo IP
+```
 
 Esempio:
 
-backend → database
+```
+backend
+    |
+    | host = "database"
+    ▼
+Docker DNS
+    ▼
+database → 172.19.0.3
+```
 
-non serve conoscere l'IP del database.
+In questo modo, se il container `database` viene eliminato e ricreato con un nuovo indirizzo IP, il backend continua a funzionare perché utilizza il nome del container e non l'IP.
+
+## Ispezionare una rete
+
+Per visualizzare le informazioni di una rete Docker:
+
+```bash
+docker network inspect devops-net
+```
+
+Tra le informazioni mostrate è possibile vedere:
+- i container collegati alla rete;
+- l'indirizzo IP assegnato a ciascun container;
+- il MAC Address;
+- altre informazioni sulla configurazione della rete.
+
+## Un container può appartenere a più reti
+
+Un container può essere collegato a più reti Docker contemporaneamente.
+
+Esempio:
+
+```text
+frontend-net
+       │
+     nginx
+       │
+backend-net
+       │
+    database
+```
+
+Questo permette, ad esempio, a un container di comunicare sia con l'esterno sia con altri servizi interni.
