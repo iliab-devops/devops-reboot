@@ -1,7 +1,7 @@
 # What is Docker?
 
 ## Definition
-Docker is a platform used to create, deploy and run applications inside containers.
+Docker is a platform used to create and run applications inside containers. It allows developers to package an application with all the necessary dependencies, configuration files, system tools and runtime.
 
 ## Why Docker exists
 - Avoid "it works on my machine"
@@ -19,7 +19,9 @@ Docker is a platform used to create, deploy and run applications inside containe
 - A container is a running instance of an image.
 - Containers share the host operating system kernel.
 
+## Why do we include dependencies and runtime in a Docker image?
 
+Because it ensures that the application has everything it needs to run and behaves consistently across different environments, avoiding configuration problems between development, testing and production.
 
 ## Tag dell'immagine
 Un tag è un riferimento (alias) a una specifica immagine Docker. Viene comunemente utilizzato per identificare una versione dell'immagine (ad esempio 1.0, 2.0 o latest).
