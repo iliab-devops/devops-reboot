@@ -9,13 +9,13 @@ Docker is a platform used to create and run applications inside containers. It a
 - Simplify deployment
 
 ## Main concepts
-- Image: blueprint
+- Image: blueprint, executable application artifact
 - Container: running instance
 - Registry: image storage (e.g. Docker Hub)
 
 ## Image vs Container
 
-- An image is an immutable template (è indipendente dal container, se elimino container l'immagine esiste).
+- An image is an immutable template used to create containers (è indipendente dal container, se elimino container l'immagine esiste). It contains the application code (i.e. javascript), dependencies (i.e. npm packages), runtime (i.e. nodejs) and sometimes an OS filesystem layer.
 - A container is a running instance of an image.
 - Containers share the host operating system kernel.
 
