@@ -1,20 +1,20 @@
-# Terraform — Basi (ripasso colloquio ADENTIS)
+# Terraform — Basi 
 
 ## Cos'è e perché
 
 Terraform è uno strumento di **Infrastructure as Code (IaC)**: descrivi l'infrastruttura desiderata in file di testo (`.tf`, linguaggio HCL) e Terraform la crea/modifica per te, chiamando le API dei provider.
 
-Perché IaC invece di creare risorse a mano dalla console:
+Perché usare IaC invece di creare risorse a mano dalla console:
 - **Ripetibilità**: rigeneri lo stesso ambiente in modo identico.
 - **Versionamento**: il codice sta in Git → storia, review, rollback.
 - **Riduzione errore umano**.
-- **Disaster recovery più veloce**: ricrei l'infra da zero con `apply`.
+- **Disaster recovery più veloce**: ricrei l'infrastruttura da zero con `apply`.
 
 ## Provider
 
-Il **provider** non è "il cloud" — è un plugin che sa parlare con una qualsiasi API. Esistono provider per AWS, GCP, Azure, ma anche per Kubernetes, DNS (Cloudflare), monitoring (Datadog), GitHub, ecc.
+Il **provider** è un plugin che sa parlare con una qualsiasi API. Esistono provider per AWS, GCP, Azure, ma anche per Kubernetes, DNS (Cloudflare), monitoring (Datadog), GitHub, ecc.
 
-Puoi usare **più provider nello stesso progetto**:
+Un'unica architettura reale può avere pezzi che vivono su sistemi diversi ma che devono lavorare insieme (i.e. app che gira su una VM AWS e che deve scrivere i suoi log su uno storage bucket GCP), in questo caso si utilizzano **più provider nello stesso progetto**:
 
 ```hcl
 provider "google" {
@@ -31,7 +31,7 @@ provider "aws" {
 - Per **creare il cluster** (es. GKE) → provider `google` (parli con l'API GCP).
 - Per **gestire cosa gira dentro il cluster** già esistente (deployment, service, configmap) → provider `kubernetes` (parli con l'API di Kubernetes).
 
-Nella pratica reale, spesso Terraform gestisce solo l'infrastruttura (il cluster), mentre le applicazioni dentro il cluster si gestiscono con Helm/ArgoCD (GitOps) — cicli di vita diversi (l'infra cambia raramente, i deploy delle app sono frequenti).
+Nella pratica reale, spesso Terraform gestisce solo l'infrastruttura (il cluster), mentre le applicazioni dentro il cluster si gestiscono con Helm/ArgoCD (GitOps) — cicli di vita diversi (l'infrastruttura cambia raramente, i deploy delle app sono frequenti).
 
 ## Resource
 
@@ -54,7 +54,7 @@ Due nomi distinti nel blocco `resource`:
 ### Creare più risorse simili
 
 - **`count`**: crea N copie identiche, indicizzate (`count.index` parte da 0). Attenzione: se rimuovi un elemento in mezzo, gli indici si "spostano" a cascata → rischio di ricreare risorse per sbaglio.
-- **`for_each`**: alternativa più moderna, usa mappa/set con chiavi leggibili invece di indici numerici — preferita quando le risorse non sono identiche tra loro (es. regioni diverse). *Domanda classica da colloquio: quando usare l'uno o l'altro.*
+- **`for_each`**: alternativa più moderna, usa mappa/set con chiavi leggibili invece di indici numerici — preferita quando le risorse non sono identiche tra loro (es. regioni diverse). 
 
 ## Variable
 
@@ -102,7 +102,9 @@ module "gke_cluster" {
 }
 ```
 
-È come "chiamare una funzione": passi parametri (`variable` del modulo), ricevi eventualmente `output`. Vantaggi: coerenza tra ambienti, manutenzione centralizzata (fix in un posto solo), riuso tra progetti. Può venire da un registry pubblico o da un repo Git interno aziendale.
+È come "chiamare una funzione": passi parametri (`variable` del modulo), ricevi eventualmente `output`. 
+
+Vantaggi: coerenza tra ambienti, manutenzione centralizzata (fix in un posto solo), riuso tra progetti. Può venire da un registry pubblico o da un repo Git interno aziendale.
 
 ## Workspace
 
