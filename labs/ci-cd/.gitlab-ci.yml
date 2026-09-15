@@ -1,0 +1,18 @@
+stages:
+  - test
+  - deploy
+
+test_job:
+  stage: test
+  image: python:3.11
+  script:
+   - echo "Installo le dipendenze"
+   - pip install -r requirements.txt
+   - pytest
+
+deploy_job:
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - echo "Deploy completato"
