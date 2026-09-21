@@ -8,7 +8,7 @@ Docker gestisce bene **un container su una macchina**. Ma con decine di microser
 
 - **Pod**: unità minima gestita da k8s. Di solito contiene **un container** (a volte più container strettamente collegati, pattern *sidecar*: l'app principale + un "aiutante" accanto).
 - **Node**: macchina (fisica o virtuale) dove i pod girano davvero. Ha CPU/RAM limitate.
-- **Cluster**: insieme di node gestiti insieme, con un control plane centrale che decide dove piazzare ogni pod.
+- **Cluster**: insieme di node gestiti insieme, con un **control plane** centrale che decide dove piazzare ogni pod e i **worker node** dove girano i pod.
 
 Analogia: il cluster è un magazzino, i node sono gli scaffali, i pod sono le scatole. Se una scatola si rompe (pod crasha), il magazziniere (k8s) ne rimette subito un'altra.
 
@@ -25,7 +25,7 @@ Se un intero **node** si guasta, k8s considera i suoi pod "morti" e li **ricrea 
 
 ## Deployment
 
-Oggetto che dichiara "voglio N copie di questa app sempre attive" — è il responsabile diretto del self-healing.
+Definisce come un'applicazione deve girare: quante repliche (copie identiche) del Pod vuoi, quale immagine Docker usare, come aggiornarla — è il responsabile diretto del self-healing (se un Pod crasha, il Deployment ne crea automaticamente un altro per sostituirlo).
 
 ```yaml
 apiVersion: apps/v1
