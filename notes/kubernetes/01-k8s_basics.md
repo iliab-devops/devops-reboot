@@ -39,11 +39,7 @@ Questo loop si chiama **reconciliation loop**. Stesso identico principio
 usato poi da **ArgoCD** in ottica GitOps (confronta "cosa dice Git" con 
 "cosa c'è nel cluster").
 
-Nota: il Deployment non gestisce i Pod direttamente — crea e gestisce un 
-**ReplicaSet**, che è il vero responsabile di mantenere il numero di 
-repliche desiderato. Il Deployment si occupa in più di orchestrare gli 
-aggiornamenti (rolling update/rollback), creando un nuovo ReplicaSet a 
-ogni cambio di versione.
+
 
 Se un intero **node** si guasta, il control plane se ne accorge perché 
 il kubelet smette di mandare heartbeat: dopo un timeout, il Node viene 

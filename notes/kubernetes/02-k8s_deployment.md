@@ -55,3 +55,9 @@ Questo è un dettaglio molto concreto e "da troubleshooting reale": se
 un deploy introduce un bug, non devi rifare manualmente il deploy della 
 versione vecchia — `kubectl rollout undo` lo fa automaticamente, 
 sfruttando lo storico delle revisioni che K8s mantiene di default.
+
+Nota: il Deployment non gestisce i Pod direttamente — crea e gestisce un 
+**ReplicaSet**, che è il vero responsabile di mantenere il numero di 
+repliche desiderato. Il Deployment si occupa in più di orchestrare gli 
+aggiornamenti (rolling update/rollback), creando un nuovo ReplicaSet a 
+ogni cambio di versione.
