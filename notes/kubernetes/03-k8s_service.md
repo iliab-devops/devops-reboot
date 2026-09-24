@@ -17,10 +17,16 @@ spec:
   selector:
     app: mia-app       # stesso label del Deployment
   ports:
-    - port: 80
-      targetPort: 8080
+    - port: 80          # porta su cui il Service è raggiungibile
+      targetPort: 8080   # porta su cui inoltra il traffico DENTRO il pod
   type: ClusterIP
 ```
+
+**`targetPort` deve combaciare con la porta su cui l'app ascolta davvero 
+nel container** (idealmente la stessa dichiarata in `containerPort` nel 
+Deployment). Se non combacia: il Service trova i Pod (selector ok, 
+Endpoints popolati), ma il traffico che arriva al Pod cade nel vuoto — 
+connessione rifiutata, anche se sembra tutto configurato correttamente.
 
 ### Tipi di Service
 
@@ -30,3 +36,16 @@ spec:
 | **NodePort** | `<IP-del-Node>:<porta>` (range 30000-32767) | test/sviluppo | raramente in produzione: espone le porte dei Node, meno sicuro |
 | **LoadBalancer** | Internet, IP pubblico dedicato | esporre un servizio in produzione | richiede un cloud provider (AWS/Azure/GCP) che lo fornisca; ha un costo; in cluster on-premise serve un controller extra come MetalLB |
 | **ExternalName** | fa da alias verso un servizio esterno al cluster (via DNS) | integrazione con risorse esterne (es. DB gestito) | non instrada verso Pod |
+
+### Debug: Endpoints (verificare che selector ↔ label combacino)
+
+```bash
+kubectl describe service mia-app-service   # cerca la riga "Endpoints:"
+kubectl get endpoints mia-app-service      # versione più diretta
+```
+
+- `Endpoints:` **vuoto** (`<none>`) → il `selector` del Service non 
+  combacia con i `label` dei Pod, nessun Pod è stato trovato
+- `Endpoints:` **popolato** (lista di IP:porta) → il Service ha trovato 
+  i Pod correttamente; se il problema persiste, controlla `targetPort` 
+  o eventuali Network Policy
